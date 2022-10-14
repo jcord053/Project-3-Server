@@ -9,7 +9,12 @@ const { isAuthenticated } = require('./middlewares/jwt.middleware');
 
 //const jsonParser = express.json;
 
-mongoose.connect('mongodb://localhost:27017/project3Golf')
+// 'mongodb://localhost:27017/project3Golf'
+
+// process.env.MONGODB_URI
+
+
+mongoose.connect(process.env.MONGODB_URI)
   .then(connectObject => {
     console.log(`connected to db ${connectObject.connections[0].name}`);
   })
@@ -21,7 +26,7 @@ app.use(morgan('dev'));
 
 app.use(cors({
   origin: [
-    'http://localhost:3000'
+    process.env.FRONTEND_URL
   ]
 }))
 
@@ -39,6 +44,6 @@ const authRoutes = require('./routes/auth.routes');
 
 app.use('/auth', authRoutes);
 
-app.listen('3001', () => {
-  console.log('hey we are listening on port 3001')
+app.listen(process.env.PORT, () => {
+  console.log('hey we are listening on port ' + process.env.PORT)
 });
